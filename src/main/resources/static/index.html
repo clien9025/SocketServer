@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Web Page</title>
+    <!-- CDN hosted CSS for Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Local CSS -->
+    <style>
+        body {
+            padding: 20px;
+        }
+        .custom-svg {
+            width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Welcome to the Test Page!</h1>
+<p>This is a paragraph to test the text rendering.</p>
+
+<!-- An external image source -->
+<img src="https://via.placeholder.com/150" alt="Placeholder Image">
+
+<!-- Local SVG -->
+<img src="example.svg" class="custom-svg" alt="Local SVG Image">
+
+<!-- Some Bootstrap components -->
+<button type="button" class="btn btn-primary">A Bootstrap Button</button>
+
+<div class="alert alert-warning" role="alert">
+    This is a Bootstrap alert—check it out!
+</div>
+
+<!-- A jQuery snippet to change the text on button click -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.btn').click(function() {
+            $(this).text('Clicked!');
+        });
+    });
+</script>
+
+<!-- Bootstrap's JavaScript requires Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<!-- CDN hosted JavaScript for Bootstrap -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
