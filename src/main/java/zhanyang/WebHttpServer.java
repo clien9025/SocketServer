@@ -34,7 +34,7 @@ public class WebHttpServer {
         }
 
         // 从请求中提取文件路径
-        String requestedFile = requestLine.split(" ")[1];
+        String requestedFile = requestLine.split("")[4];
 
         // 如果请求是根目录，则默认返回 index.html
         if (requestedFile.equals("/")) {
@@ -43,7 +43,7 @@ public class WebHttpServer {
 
         try {
             // 从磁盘读取文件。这个路径应该是安全的，并限制到一个特定的目录。
-            byte[] fileContent = Files.readAllBytes(Paths.get("wwwroot" + requestedFile));
+            byte[] fileContent = Files.readAllBytes(Paths.get("/Users/apple/IdeaProjects/Serverlet/src/main/resources/static/" + requestedFile));
 
             // 确定内容类型
             String contentType;
