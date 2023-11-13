@@ -51,6 +51,8 @@ public class WebHttpServer {
                 contentType = "image/svg+xml";
             } else if (requestedFile.endsWith(".html")) {
                 contentType = "text/html";
+            } else if (requestedFile.startsWith(".css")) {
+                contentType = "text/css";
             } else {
                 contentType = "text/plain";
             }
