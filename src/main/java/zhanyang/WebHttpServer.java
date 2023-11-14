@@ -16,6 +16,7 @@ public class WebHttpServer {
 
         while (true) {
             try (Socket clientSocket = serverSocket.accept()) {
+                System.out.println(clientSocket);
                 handleClient(clientSocket);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -28,7 +29,9 @@ public class WebHttpServer {
         OutputStream out = clientSocket.getOutputStream();
 
         // 读取请求行
+        System.out.println(in);
         String requestLine = in.readLine();
+        System.out.println(requestLine);
         if (requestLine == null) {
             return;
         }
@@ -51,7 +54,7 @@ public class WebHttpServer {
                 contentType = "image/svg+xml";
             } else if (requestedFile.endsWith(".html")) {
                 contentType = "text/html";
-            } else if (requestedFile.startsWith(".css")) {
+            } else if (requestedFile.endsWith(".css")) {
                 contentType = "text/css";
             } else {
                 contentType = "text/plain";
