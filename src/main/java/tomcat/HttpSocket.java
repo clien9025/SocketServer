@@ -1,9 +1,13 @@
-package zhanyang;
+package tomcat;
 
 import java.io.*;
 import java.net.Socket;
 
 public class HttpSocket {
+    public void Socket() throws IOException, InterruptedException {
+        Socket(null, 0);
+    }
+
     public void Socket(String host, int port) throws IOException, InterruptedException {
         Socket socket = new Socket("127.0.0.1", 8080);
         OutputStream os = socket.getOutputStream();
