@@ -7,6 +7,10 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * 访问(本地)超文本文件 index.html ,加载 html 文件所需要的相应的svg,css,js类型的文件
+ * 从而拉起本地 web 页面响应
+ */
 public class WebHttpServer {
 
     public static void main(String[] args) throws IOException {

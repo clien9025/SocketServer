@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ * 用于访问 WebHttpServer 服务启动的项目
+ */
 public class HttpSocket {
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -66,6 +69,5 @@ public class HttpSocket {
         }
 
     }
-
 
 }
