@@ -35,8 +35,22 @@ public class Response {
                 fis = new FileInputStream(file);
                 long length = file.length();  // 获取文件长度
                 byte[] bytes = new byte[(int) length];  // 创建一个与文件大小匹配的字节数组
-                fis.read(bytes);  // 一次性读取文件内容到字节数组
-                output.write(bytes);  // 一次性写入数据到输出流
+                int readBytes = fis.read(bytes);// 一次性读取文件内容到字节数组
+
+                /*
+                添加响应部分
+                 */
+                // 发送 HTTP 响应头部
+                String headerMessage = "HTTP/1.1 200 OK\r\n" +
+                        "Content-Type: " + getContentType(file.getName()) + "\r\n" +
+                        "Content-Length: " + length + "\r\n" +
+                        "\r\n";
+                output.write(headerMessage.getBytes());
+
+                // 根据实际读取的字节数写入输出流
+                if (readBytes > 0) {
+                    output.write(bytes, 0, readBytes);
+                }
             } else {
                 // 文件没找到
                 String errorMessage = "HTTP/1.1 404 File Not Found\r\n" +
@@ -52,6 +66,21 @@ public class Response {
             if (fis!=null) {
                 fis.close();
             }
+        }
+    }
+
+
+    // 获取内容类型
+    private String getContentType(String fileName) {
+        if (fileName.endsWith(".htm") || fileName.endsWith(".html")) {
+            return "text/html";
+        }
+        else if (fileName.endsWith(".css")) {
+            return "text/css";
+        } else if (fileName.endsWith(".svg")) {
+            return "image/svg+xml";
+        } else {
+            return "text/plain";
         }
     }
 }

@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class HttpServer {
+    // 本地文件路径
     public static final String WEB_ROOT =
             System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "static";
     // shutdown
