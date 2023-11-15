@@ -38,7 +38,7 @@ public class Response {
                 int readBytes = fis.read(bytes);// 一次性读取文件内容到字节数组
 
                 /*
-                添加响应部分
+                添加响应体格式以及数据处理的逻辑
                  */
                 // 发送 HTTP 响应头部
                 String headerMessage = "HTTP/1.1 200 OK\r\n" +
