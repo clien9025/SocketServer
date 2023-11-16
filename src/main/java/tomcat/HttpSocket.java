@@ -4,9 +4,6 @@ import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
 
-/**
- * 用于访问 WebHttpServer 服务启动的项目
- */
 public class HttpSocket {
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -30,6 +27,7 @@ public class HttpSocket {
             out.println();
 
             /**
+             * How Tomcat Work 书中示例
              *这个逻辑存在问题，因为内部 while 循环设计有误。
              *它应该在读取到 -1 时停止，但是代码中并没有在读取到 -1 之前跳出循环，这将导致无限循环。
              *另外，当 in.read() 返回 -1 时，它会将 -1 作为一个字符添加到 StringBuffer 中，这是不正确的。
@@ -64,10 +62,14 @@ public class HttpSocket {
             System.out.println(sb.toString());
             socket.close();
 
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
+
     }
+
 
 }
