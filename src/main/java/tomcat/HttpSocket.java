@@ -14,6 +14,7 @@ public class HttpSocket {
 
         try {
             // 确保web服务器正在这个端口上监听
+            // 访问百度的话: new Socket("www.baidu.com", 80)
             Socket socket = new Socket("127.0.0.1", 8080);
             OutputStream os = socket.getOutputStream();
             boolean autoFlush = true;
@@ -21,6 +22,7 @@ public class HttpSocket {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             // 发送一个 HTTP 请求到 web 服务器
+            // 访问百度的话: Host: www.baidu.com:80
             out.println("GET /index.html HTTP/1.1");
             out.println("Host: localhost:8080"); // 确保这与您的服务器监听的端口一致
             out.println("Connection: close");
@@ -70,6 +72,5 @@ public class HttpSocket {
 
 
     }
-
 
 }
