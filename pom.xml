@@ -3,19 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-<!--    最简版本 pom 文件完成,上传 1.1 版本(非 snapshot 版本)成功-->
+    <!--最简版本 pom 文件完成,上传 1.1 版本(非 snapshot 版本)成功-->
 
+    <!--GAV 根据实际填写,其中 groupId 一定要跟上面在 jira 申请问题时填写的 Group Id 保持一致，否则无法上传成功-->
     <groupId>io.github.clien9025</groupId>
     <artifactId>Serverlet</artifactId>
     <version>1.1</version>
-
+    <!--JDK 版本要和 java 版本对应(此处用的是17版本)-->
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
     </properties>
-
+    <!--For some human readable information about your project and-->
+    <!--a pointer to your project website for more, we require the presence of name , description and url .-->
     <name>WebServerlet</name>
     <description>My server</description>
     <url>http://www.example.com/example-application</url>
@@ -38,11 +40,13 @@
     </developers>
 
     <scm>
+        <!--第一个,http仓库地址;第二个,ssh仓库地址;第三个,项目地址(带分支)-->
         <connection>https://github.com/clien9025/SocketServer.git</connection>
         <developerConnection>git@github.com:clien9025/SocketServer.git</developerConnection>
         <url>https://github.com/clien9025/SocketServer/tree/develop/20231107/simple-server</url>
     </scm>
 
+    <!--这里的 id 标签要和 maven 中的 server 标签中的 id 标签内容要一致-->
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -53,7 +57,7 @@
             <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-    <!--    Maven Central Repository 同步失败,添加三个模块-->
+    <!--Maven Central Repository 同步失败,添加三个模块-->
     <build>
         <!--doc-->
         <plugins>
