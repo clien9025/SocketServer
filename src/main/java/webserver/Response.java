@@ -1,9 +1,6 @@
 package webserver;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 public class Response {
     private static final int BUFFER_SIZE = 1024;
@@ -22,48 +19,18 @@ public class Response {
     修改逻辑部分是为了跑通本地项目
      */
     public void sendStaticResource() throws IOException {
-        // TODO 我想在下面代码中添加判断 file.getName() 是否含有"?"这个标识符,
-        //  如果有的话那么就把包含"?"以及问号后面的路径全部去除,只返回"?"之前
-        //  的 file.getName().我举个例子:
-        //  file.getName() 的值是:flaticon.ttf?5b9bc942fd3d9c02b6b08441492dd015
-        //  但是我只需要这个部分:flaticon.ttf
-        //  然后再将得到的 flaticon.ttf 部分添加到 HttpServer.WEB_ROOT 后面,得到文件真实的路径 file
-        //  之后再去调用本地的资源,发送相应的响应格式
+        /*
+        为了替换路径
+         */
+        String resourcePath = "static" + request.getUri();
 
-        FileInputStream fis = null;
-        try {
-            String fileName = request.getUri();
-            // 检查文件名中是否包含 "?"
-            int queryIndex = fileName.indexOf('?');
-            if (queryIndex != -1) {
-                // 如果存在，去掉 "?" 及其之后的所有内容
-                fileName = fileName.substring(0, queryIndex);
-            }
-            File file = new File(HttpServer.WEB_ROOT, fileName);
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
 
-            // 全局响应头变量
-            String headerMessage = null;
-
-            if (file.exists()) {
-                fis = new FileInputStream(file);
-                long length = file.length();  // 获取文件长度
-                byte[] bytes = new byte[(int) length];  // 创建一个与文件大小匹配的字节数组
-                int readBytes = fis.read(bytes);// 一次性读取文件内容到字节数组
-
-                /*
-                添加响应体格式以及数据处理的逻辑
-                 */
-                // 发送 HTTP 响应头部
-                headerMessage = "HTTP/1.1 200 OK\r\n" +
-                        "Content-Type: " + getContentType(file.getName()) + "\r\n" +
-                        "Content-Length: " + length + "\r\n" +
-                        "\r\n";
-
-                output.write(headerMessage.getBytes());
-
-                // 根据实际读取的字节数写入输出流
-                if (readBytes > 0) {
-                    output.write(bytes, 0, readBytes);
+            if (is != null) {
+                byte[] buffer = new byte[1024];
+                int byteReads;
+                while ((byteReads = is.read(buffer)) != -1) {
+                    output.write(buffer, 0, byteReads);
                 }
             } else {
                 // 文件没找到
@@ -76,10 +43,6 @@ public class Response {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                fis.close();
-            }
         }
     }
 
