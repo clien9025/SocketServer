@@ -18,7 +18,15 @@ public class Response {
     }
 
     public void sendStaticResource() throws IOException {
-        String resourcePath = "static" + request.getUri();
+        // 添加 8080/index.html 和 / 两个路径访同一资源的逻辑
+
+        String resourcePath;
+        if (request.getUri().equals("/")) {
+            resourcePath = "static/index.html";
+        } else {
+            resourcePath = "static" + request.getUri();
+        }
+
         System.out.println("resourcePath++++++++++++++" + resourcePath);
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
             if (is != null) {
