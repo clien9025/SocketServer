@@ -1,6 +1,8 @@
 package webserver;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class Response {
     private static final int BUFFER_SIZE = 1024;
@@ -15,30 +17,29 @@ public class Response {
         this.request = request;
     }
 
-    /*
-    修改逻辑部分是为了跑通本地项目
-     */
     public void sendStaticResource() throws IOException {
-        /*
-        为了替换路径
-         */
         String resourcePath = "static" + request.getUri();
-
+        System.out.println("resourcePath++++++++++++++" + resourcePath);
         try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
-
             if (is != null) {
-                byte[] buffer = new byte[1024];
-                int byteReads;
-                while ((byteReads = is.read(buffer)) != -1) {
-                    output.write(buffer, 0, byteReads);
+                // 发送正确的 HTTP 响应头
+                String headerMessage = "HTTP/1.1 200 OK\r\n" +
+                        "Content-Type: " + getContentType(resourcePath) + "\r\n" +
+                        "\r\n";
+                output.write(headerMessage.getBytes());
+
+                // 读取静态资源内容并发送
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int bytesRead;
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    output.write(buffer, 0, bytesRead);
                 }
             } else {
-                // 文件没找到
+                // 资源未找到，发送 404 错误
                 String errorMessage = "HTTP/1.1 404 File Not Found\r\n" +
                         "Content-Type: text/html\r\n" +
-                        "Content-length: 23\r\n" +
                         "\r\n" +
-                        "<h1>File Not Found<h1>";
+                        "<h1>File Not Found</h1>";
                 output.write(errorMessage.getBytes());
             }
         } catch (Exception e) {
@@ -46,28 +47,28 @@ public class Response {
         }
     }
 
-
-    // 获取内容类型
-    private String getContentType(String fileName) {
-        if (fileName.endsWith(".htm") || fileName.endsWith(".html")) {
+    // 确定文件类型
+    private String getContentType(String resourcePath) {
+        if (resourcePath.endsWith(".html")) {
             return "text/html";
-        } else if (fileName.endsWith(".css")) {
+        } else if (resourcePath.endsWith(".css")) {
             return "text/css";
-        } else if (fileName.endsWith(".svg")) {
-            return "image/svg+xml";
-        } else if (fileName.endsWith(".js")) {
+        } else if (resourcePath.endsWith(".js")) {
             return "application/javascript";
-        } else if (fileName.endsWith(".jpg")) {
-            return "image/jpeg";
-        } else if (fileName.endsWith(".png")) {
+        } else if (resourcePath.endsWith(".png")) {
             return "image/png";
-        } else if (fileName.endsWith(".ttf") && fileName.startsWith("flaticon.ttf")) {
+        } else if (resourcePath.endsWith(".jpg") || resourcePath.endsWith(".jpeg")) {
+            return "image/jpeg";
+        } else if (resourcePath.endsWith(".svg")) {
+            return "image/svg+xml";
+        } else if (resourcePath.endsWith(".ttf")) {
             return "font/ttf";
-        } else if (fileName.endsWith(".woff2") && fileName.startsWith("flaticon.woff") && fileName.startsWith("flaticon.woff2")) {
+        } else if (resourcePath.endsWith(".woff")) {
+            return "font/woff";
+        } else if (resourcePath.endsWith(".woff2")) {
             return "font/woff2";
         } else {
             return "text/plain";
         }
     }
-
 }

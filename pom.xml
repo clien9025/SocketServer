@@ -8,7 +8,7 @@
     <!--GAV 根据实际填写,其中 groupId 一定要跟上面在 jira 申请问题时填写的 Group Id 保持一致，否则无法上传成功-->
     <groupId>io.github.clien9025</groupId>
     <artifactId>Serverlet</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <!--JDK 版本要和 java 版本对应(此处用的是17版本)-->
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
